@@ -4,19 +4,28 @@ from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filte
 
 
 # Logging system configuration
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """send message when command /start called"""
+    """
+    send message when command /start called
+
+    args:
+    update: contains info about message or event
+    context: provides access to methods and data to perform operations with the bot
+    """
     await context.bot.send_message(chat_id=update.effective_chat.id, text='Im a bot, please talk to me!')
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """send message when command /help called"""
+    """
+    send message when command /start called
+
+    args:
+    update: contains info about message or event
+    context: provides access to methods and data to perform operations with the bot
+    """
     await context.bot.send_message(chat_id=update.effective_chat.id, text='what you need to know')
 
 
