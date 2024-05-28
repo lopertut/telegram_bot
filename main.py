@@ -1,9 +1,10 @@
 import logging
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filters, MessageHandler
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filters, MessageHandler, ConversationHandler
+from weather import *
 
 
-print('hello world')
+START, ASK_CITY = range(2)
 
 
 # Logging system configuration
@@ -18,7 +19,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     update: contains info about message or event
     context: provides access to methods and data to perform operations with the bot
     """
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='Im a bot, please talk to me!')
+    start_message = (
+        'Hello! Im a bot that can provide weather information.\n\n'
+         'Available commands:\n'
+         '/start - Start a conversation with the bot\n'
+         '/help - Get help about the bot\n'
+         '/weather - Find out the weather in your city\n'
+    )
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
+    return START
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -33,7 +42,16 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def weather_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='write city')
+    # Отправляем запрос пользователю о названии города
+    await context.bot.send_message(chat_id=update.effective_chat.id, text='Введите название города:')
+    return ASK_CITY
+
+
+def handle_city_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    city = update.message.text
+    weather_data = weather(city)
+    update.message.reply_text(weather_data)
+    return ConversationHandler.END
 
 
 def main():
@@ -45,7 +63,17 @@ def main():
     help_handler = CommandHandler('help', help_command)
     weather_handler = CommandHandler('weather', weather_info)
 
+    # create conversation handler
+    conversation_handler = ConversationHandler(
+        entry_points=[CommandHandler('weather', weather_info)],
+        states={
+            ASK_CITY: [MessageHandler(filters.TEXT & ~filters.COMMAND, handle_city_input)]
+        },
+        fallbacks=[]
+    )
+
     # add handlers
+    application.add_handler(conversation_handler)
     application.add_handler(start_handler)
     application.add_handler(help_handler)
     application.add_handler(weather_handler)
