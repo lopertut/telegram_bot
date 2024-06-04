@@ -43,11 +43,11 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def weather_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Отправляем запрос пользователю о названии города
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='Введите название города:')
+    await context.bot.send_message(chat_id=update.effective_chat.id, text='enter city:')
     return ASK_CITY
 
 
-def handle_city_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+def handle_city_input(update: Update):
     city = update.message.text
     forecast = Forecast(city)
     weather_data = forecast.weather()
