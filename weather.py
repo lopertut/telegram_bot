@@ -1,5 +1,4 @@
 import requests
-import json
 
 
 class Forecast:
@@ -33,10 +32,10 @@ class Forecast:
                     conditions = day.get('conditions', 'N/A')
 
                     weather = (
-                        f'Weather on {date} in {self.city}:'
-                        f'Temperature: {temp}°C'
-                        f'Humidity: {humidity}%'
-                        f'Wind Speed: {wind_speed} km/h'
+                        f'Weather on {date} in {self.city}:\n'
+                        f'Temperature: {temp}°C\n'
+                        f'Humidity: {humidity}%\n'
+                        f'Wind Speed: {wind_speed} km/h\n'
                         f'Conditions: {conditions}'
                         )
 
