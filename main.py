@@ -1,7 +1,7 @@
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filters, MessageHandler, ConversationHandler
-from weather import *
+from weather import Forecast
 
 
 START, ASK_CITY = range(2)
@@ -42,16 +42,21 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def weather_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Отправляем запрос пользователю о названии города
     await context.bot.send_message(chat_id=update.effective_chat.id, text='enter city:')
     return ASK_CITY
 
 
-def handle_city_input(update: Update):
+async def handle_city_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
     city = update.message.text
     forecast = Forecast(city)
     weather_data = forecast.weather()
-    update.message.reply_text(weather_data)
+
+    if weather_data:
+        for message in weather_data:
+            await context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+    else:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text='Failed to retrieve weather data.')
+
     return ConversationHandler.END
 
 
