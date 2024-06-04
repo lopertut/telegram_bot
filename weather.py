@@ -4,10 +4,8 @@ import json
 
 def weather(city):
     # Настройка параметров запроса
-    # city = input('Enter city name: ')
-    date1 = input('Enter start date (YYYY-MM-DD): ')
-    date2 = input('Enter end date (YYYY-MM-DD): ')
-    url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}/{date1}/{date2}'
+
+    url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}/'
 
     params = {
         'unitGroup': 'metric',
