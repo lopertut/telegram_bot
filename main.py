@@ -49,7 +49,8 @@ async def weather_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def handle_city_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
     city = update.message.text
-    weather_data = weather(city)
+    forecast = Forecast(city)
+    weather_data = forecast.weather()
     update.message.reply_text(weather_data)
     return ConversationHandler.END
 
