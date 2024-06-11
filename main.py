@@ -29,17 +29,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
 
 
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    send message when command /start called
-
-    args:
-    update: contains info about message or event
-    context: provides access to methods and data to perform operations with the bot
-    """
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='what you need to know')
-
-
 async def weather_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text='enter city:')
     return ASK_CITY
@@ -65,7 +54,6 @@ def main():
 
     # create commands handlers
     start_handler = CommandHandler('start', start)
-    help_handler = CommandHandler('help', help_command)
     weather_handler = CommandHandler('weather', weather_info)
 
     # create conversation handler
@@ -80,7 +68,6 @@ def main():
     # add handlers
     application.add_handler(conversation_handler)
     application.add_handler(start_handler)
-    application.add_handler(help_handler)
     application.add_handler(weather_handler)
 
     # checking updates for bot
