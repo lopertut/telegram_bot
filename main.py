@@ -27,7 +27,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
          '/weather - Find out the weather in your city\n'
     )
     await context.bot.send_message(chat_id=update.effective_chat.id, text=start_message)
-    return START
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
