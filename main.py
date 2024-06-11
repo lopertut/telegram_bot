@@ -4,7 +4,7 @@ from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filte
 from weather import Forecast
 
 
-START, ASK_CITY = range(2)
+ASK_CITY = range(1)
 
 
 # Logging system configuration
